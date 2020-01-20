@@ -7,38 +7,52 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
 @Table(name="Turmas")
 public class Turma implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7600635712824313274L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idTurma", unique = true, nullable = false)
+	@JsonProperty("")
 	private long idTurma;
 
 	@Column(name="nome")
+	@JsonProperty("")
 	private String nome;
 	
 	@Column(name="semestre")
+	@JsonProperty("")
 	private String semestre;
 	
 	@Column(name="ano")
+	@JsonProperty("")
 	private String ano;
 	
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "turmas")
+	@JsonProperty("")
 	private List<Disciplina> disciplinas;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "turmas")
+	@JsonProperty("")
 	private List<Aluno> alunos;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "turma")
+	@JsonProperty("")
     private List<Prova> provas;
 
 	public long getIdTurma() {

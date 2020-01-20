@@ -16,6 +16,11 @@ import javax.persistence.Table;
 @Table(name="Perguntas")
 public class Pergunta implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 348773850303418868L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idPergunta", unique = true, nullable = false)
@@ -51,10 +56,10 @@ public class Pergunta implements Serializable{
 	@Column(name="disciplinas_idDisciplina")
 	private long disciplinas_idDisciplina;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "perguntas")
 	private List<Disciplina> disciplinas;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "pergunta")
 	private List<Resposta> respostas;
 
 	public long getIdPergunta() {

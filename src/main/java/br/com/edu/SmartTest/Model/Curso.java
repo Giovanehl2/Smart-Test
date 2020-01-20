@@ -11,26 +11,49 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name="Cursos")
 public class Curso implements Serializable{
 	
+
+
+	public Curso(long idCurso, String nome, String descricao, List<Aluno> alunos, List<Disciplina> disciplinas) {
+		super();
+		this.idCurso = idCurso;
+		this.nome = nome;
+		this.descricao = descricao;
+		Alunos = alunos;
+		this.disciplinas = disciplinas;
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7236042035188244138L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idCurso", unique = true, nullable = false)
+	@JsonProperty("idCurso")
 	private long idCurso;
 	
 	@Column(name="nome")
+	@JsonProperty("nome")
 	private String nome;
 
 	@Column(name="descricao")
+	@JsonProperty("descricao")
 	private String descricao;
 	
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "cursos")
+	@JsonProperty("Alunos")
 	private List<Aluno> Alunos;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "cursos")
+	@JsonProperty("disciplinas")
 	private List<Disciplina> disciplinas;
 
 	public long getIdCurso() {
@@ -72,5 +95,7 @@ public class Curso implements Serializable{
 	public void setDisciplinas(List<Disciplina> disciplinas) {
 		this.disciplinas = disciplinas;
 	}
+
+
 	
 }

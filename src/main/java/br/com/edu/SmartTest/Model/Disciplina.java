@@ -8,40 +8,66 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name="Disciplinas")
 public class Disciplina implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2296171009290042391L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idDisciplina", unique = true, nullable = false)
+	@JsonProperty("idDisciplina")
 	private long idDisciplina;
 	
 	@Column(name="nome")
+	@JsonProperty("nome")
 	private String nome;
 	
 	@Column(name="descricao")
+	@JsonProperty("descricao")
 	private String descricao;
 	
 	@ManyToMany
+	@JoinTable(name = "cursos_disciplinas")
+	@JsonProperty("cursos")
 	private List<Curso> cursos;
 		
 	@ManyToMany
+	@JoinTable(name = "provas_disciplinas")
+	@JsonProperty("provas")
 	private List<Prova> provas;
 	
 	@ManyToMany
+	@JoinTable(name = "turmas_disciplinas")
+	@JsonProperty("turmas")
 	private List<Turma> turmas;
 	
 	
 	@ManyToMany
+	@JoinTable(name = "perguntas_disciplinas")
+	@JsonProperty("perguntas")
 	private List<Pergunta> perguntas;
 	
 	@ManyToMany
+	@JoinTable(name = "respostas_disciplinas")
+	@JsonProperty("respostas")
 	private List<Resposta> respostas;
 
+	@ManyToMany
+	@JoinTable(name = "professores_disciplinas")
+	@JsonProperty("professores")
+	private List<Professor> professores;
+	
 	public long getIdDisciplina() {
 		return idDisciplina;
 	}

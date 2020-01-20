@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.SmartTest.Model.Aluno;
 import br.com.edu.SmartTest.Model.Repository.AlunoRepository;
+import br.com.edu.SmartTest.Model.Repository.CursoRepository;
 
 @RestController
 @RequestMapping({"/Alunos"})
@@ -19,45 +20,56 @@ public class AlunoController {
 
 	
 
-	  private AlunoRepository repository;
-
+	  public static  AlunoRepository repositoryAluno;
+	  
 	  AlunoController(AlunoRepository alunoRepository) {
-	      this.repository = alunoRepository;
+	      this.repositoryAluno = alunoRepository;
 	  }
+	  
+	  
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Aluno> findById(@PathVariable long id){
-	    return repository.findById(id)
+	    return repositoryAluno.findById(id)
 	            .map(x -> ResponseEntity.ok().body(x))
 	            .orElse(ResponseEntity.notFound().build());
 	  }
 	  
 	  @PostMapping
-	  public void salvar(@RequestBody Aluno aluno) {
-		  
-		  
-		  repository.save(aluno);
+	  public void salvar(@RequestBody Aluno aluno) {	  
+		  repositoryAluno.save(aluno);
 	  }
 	  	  
 	  @PutMapping(value="/{id}")
 	  public ResponseEntity<Aluno> update(@PathVariable("id") long id, @RequestBody Aluno aluno){
-	    return repository.findById(id)
+	    return repositoryAluno.findById(id)
 	        .map(x -> {
 	            x.setMatricula(aluno.getMatricula());
 	            x.setNome(aluno.getNome());
 	            x.setSexo(aluno.getSexo());
-	            Aluno updated = repository.save(x);
+	            Aluno updated = repositoryAluno.save(x);
 	            return ResponseEntity.ok().body(updated);
 	        }).orElse(ResponseEntity.notFound().build());
 	  }
 	  
 	  @DeleteMapping(path ={"/{id}"})
 	  public ResponseEntity<?> delete(@PathVariable("id") long id) {
-	    return repository.findById(id)
+	    return repositoryAluno.findById(id)
 	        .map(record -> {
-	            repository.deleteById(id);
+	            repositoryAluno.deleteById(id);
 	            return ResponseEntity.ok().build();
 	        }).orElse(ResponseEntity.notFound().build());
 	  }
+	  
+	  
 
+	public static boolean salvarAluno(Aluno aluno) {
+		try {
+			repositoryAluno.save(aluno);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

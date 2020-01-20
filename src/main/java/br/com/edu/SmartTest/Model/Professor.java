@@ -11,28 +11,41 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name="Professores")
 public class Professor implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4827112727112617592L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idProfessor", unique = true, nullable = false)
+	@JsonProperty("")
 	private long idProfessor;
 
 	@Column(name="matricula")
+	@JsonProperty("")
 	private int matricula;
 	
 	@Column(name="nome")
+	@JsonProperty("")
 	private String nome;
 	
 	@Column(name="sexo")
+	@JsonProperty("")
 	private String sexo;
 	
 	@Column(name="senha")
+	@JsonProperty("")
 	private String senha;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "professores")
+	@JsonProperty("")
 	private List<Disciplina> disciplinas;
 
 	public long getIdProfessor() {

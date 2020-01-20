@@ -8,26 +8,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "Provas")
 public class Prova implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1380347614810639993L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idProva", unique = true, nullable = false)
+	@JsonProperty("")
 	private long idProva;
 
 	@Column(name = "descricaoProva")
+	@JsonProperty("")
 	private String descricaoProva;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "provas")
+	@JsonProperty("")
 	private List<Disciplina> disciplinas;
 
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "idTurma")
+	@JsonProperty("")
 	private Turma turma;
 
 	public String getDescricaoProva() {
