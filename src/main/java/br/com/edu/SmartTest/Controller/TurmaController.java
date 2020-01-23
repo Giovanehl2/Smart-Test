@@ -1,5 +1,6 @@
 package br.com.edu.SmartTest.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.edu.SmartTest.Model.Curso;
 import br.com.edu.SmartTest.Model.Turma;
 import br.com.edu.SmartTest.Model.Repository.TurmaRepository;
 
@@ -18,12 +20,12 @@ import br.com.edu.SmartTest.Model.Repository.TurmaRepository;
 public class TurmaController {
 
 	
-
-	  private TurmaRepository repository;
-
-	  TurmaController(TurmaRepository TurmaRepository) {
-	      this.repository = TurmaRepository;
-	  }
+	  @Autowired
+	  private static TurmaRepository repository;
+ 
+//	  TurmaController(TurmaRepository TurmaRepository) {
+//	      this.repository = TurmaRepository;
+//	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Turma> findById(@PathVariable long id){
@@ -57,5 +59,23 @@ public class TurmaController {
 	            return ResponseEntity.ok().build();
 	        }).orElse(ResponseEntity.notFound().build());
 	  }
+	  
+		public static void  salvarCurso(Turma turma) {
+			try {
+				repository.save(turma);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public static void  salvarTurma(Turma turma) {
+			try {
+				repository.save(turma);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 
 }

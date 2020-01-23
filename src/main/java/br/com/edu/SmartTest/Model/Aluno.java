@@ -1,6 +1,7 @@
 package br.com.edu.SmartTest.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -17,98 +18,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name="Alunos")
-public class Aluno implements Serializable {
+public class Aluno extends Pessoa implements Serializable {
 
-		
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7721140114551319452L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idAluno", unique = true, nullable = false)
-	@JsonProperty("idAluno")
-	private long idAluno;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "idAluno", unique = true, nullable = false)
+//	@JsonProperty("idAluno")
+//	private long idAluno;
 
-	@Column(name = "matricula")
-	@JsonProperty("matricula")
-	private int matricula;
-
-	@Column(name = "nome")
-	@JsonProperty("nome")
-	private String nome;
-
-	@Column(name = "sexo")
-	@JsonProperty("sexo")
-	private String sexo;
-
-	@Column(name = "senha")
-	@JsonProperty("senha")
-	private String senha;
-	
+//	@Column(name = "matricula")
+//	@JsonProperty("matricula")
+//	private int matricula;
+//
+//	@Column(name = "nome")
+//	@JsonProperty("nome")
+//	private String nome;
+//
+//	@Column(name = "sexo")
+//	@JsonProperty("sexo")
+//	private String sexo;
+//
+//	@Column(name = "senha")
+//	@JsonProperty("senha")
+//	private String senha;
+//	
 
 	@ManyToMany
 	@JoinTable(name = "cursos_alunos")
 	@JsonProperty("cursos")
-	private List<Curso> cursos;
+	private List<Curso> cursos = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "turmas_alunos")
 	@JsonProperty("turmas")
-	private List<Turma> turmas;
-
-
-	public long getIdAluno() {
-		return idAluno;
-	}
-
-
-	public void setIdAluno(long idAluno) {
-		this.idAluno = idAluno;
-	}
-
-
-	public int getMatricula() {
-		return matricula;
-	}
-
-
-	public void setMatricula(int matricula) {
-		this.matricula = matricula;
-	}
-
-
-	public String getNome() {
-		return nome;
-	}
-
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-
-	public String getSexo() {
-		return sexo;
-	}
-
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
-
-	public String getSenha() {
-		return senha;
-	}
-
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-
+	private List<Turma> turmas = new ArrayList<>();
 
 
 	public List<Turma> getTurmas() {

@@ -25,16 +25,16 @@ public class Resposta implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idResposta", unique = true, nullable = false)
-	@JsonProperty("")
+	@JsonProperty("idResposta")
 	private long idResposta;
 
 	@Column(name="resposta")
-	@JsonProperty("")
+	@JsonProperty("resposta")
 	private String resposta;
-		
-	@ManyToOne
-	@JoinColumn(name = "idPergunta")
-	@JsonProperty("")
+	
+	//verificar se esta correto
+
+	@JsonProperty("pergunta")
 	private Pergunta pergunta;
 
 	public long getIdResposta() {

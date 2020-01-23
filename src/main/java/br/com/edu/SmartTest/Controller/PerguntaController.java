@@ -1,5 +1,9 @@
 package br.com.edu.SmartTest.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.edu.SmartTest.Model.Curso;
+import br.com.edu.SmartTest.Model.Disciplina;
 import br.com.edu.SmartTest.Model.Pergunta;
+import br.com.edu.SmartTest.Model.Resposta;
 import br.com.edu.SmartTest.Model.Repository.PerguntaRepository;
 
 @RestController
@@ -18,12 +25,12 @@ import br.com.edu.SmartTest.Model.Repository.PerguntaRepository;
 public class PerguntaController {
 
 	
+	  @Autowired
+	  private static PerguntaRepository repository;
 
-	  private PerguntaRepository repository;
-
-	  PerguntaController(PerguntaRepository PerguntaRepository) {
-	      this.repository = PerguntaRepository;
-	  }
+//	  PerguntaController(PerguntaRepository PerguntaRepository) {
+//	      this.repository = PerguntaRepository;
+//	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Pergunta> findById(@PathVariable long id){
@@ -33,8 +40,21 @@ public class PerguntaController {
 	  }
 	  
 	  @PostMapping
-	  public void salvar(@RequestBody Pergunta pergunta) {
+	  public void salvar(@RequestBody Pergunta pergunta) { 
 		  
+			if (!pergunta.getRespostas().isEmpty()) {
+				for (Resposta resposta : pergunta.getRespostas()) {
+					if (resposta != null)
+						RespostaController.salvarResposta(resposta);
+				}
+			}
+			
+			if (!pergunta.getDisciplinas().isEmpty()) {
+				for (Disciplina disciplina : pergunta.getDisciplinas()) {
+					if (disciplina != null)
+						DisciplinaController.salvarDisciplina(disciplina);
+				}
+			}
 		  
 		  repository.save(pergunta);
 	  }
@@ -59,4 +79,12 @@ public class PerguntaController {
 	        }).orElse(ResponseEntity.notFound().build());
 	  }
 
+		public static void  salvarPergunta(Pergunta pergunta) {
+			try {
+				repository.save(pergunta);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 }

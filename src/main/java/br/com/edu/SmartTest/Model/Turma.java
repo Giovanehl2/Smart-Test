@@ -1,6 +1,7 @@
 package br.com.edu.SmartTest.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,41 +21,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name="Turmas")
 public class Turma implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7600635712824313274L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idTurma", unique = true, nullable = false)
-	@JsonProperty("")
+	@JsonProperty("idTurma")
 	private long idTurma;
 
 	@Column(name="nome")
-	@JsonProperty("")
+	@JsonProperty("nome")
 	private String nome;
 	
 	@Column(name="semestre")
-	@JsonProperty("")
+	@JsonProperty("semestre")
 	private String semestre;
 	
 	@Column(name="ano")
-	@JsonProperty("")
+	@JsonProperty("ano")
 	private String ano;
 	
 	
 	@ManyToMany(mappedBy = "turmas")
-	@JsonProperty("")
-	private List<Disciplina> disciplinas;
+	@JsonProperty("disciplinas")
+	private List<Disciplina> disciplinas = new ArrayList<>();
 	
 	@ManyToMany(mappedBy = "turmas")
-	@JsonProperty("")
-	private List<Aluno> alunos;
+	@JsonProperty("alunos")
+	private List<Aluno> alunos = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "turma")
-	@JsonProperty("")
-    private List<Prova> provas;
+	@OneToMany
+	@JoinColumn(name = "idTurma")
+	@JsonProperty("provas")
+    private List<Prova> provas = new ArrayList<>();
 
 	public long getIdTurma() {
 		return idTurma;

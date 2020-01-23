@@ -1,7 +1,6 @@
 package br.com.edu.SmartTest.Controller;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.SmartTest.Model.Aluno;
 import br.com.edu.SmartTest.Model.Curso;
-import br.com.edu.SmartTest.Model.Repository.AlunoRepository;
+import br.com.edu.SmartTest.Model.Disciplina;
 import br.com.edu.SmartTest.Model.Repository.CursoRepository;
 
 @RestController
 @RequestMapping({ "/Curso" })
 public class CursoController {
 
-	private CursoRepository repository;
+	@Autowired
+	private static CursoRepository repository;
 
-	CursoController(CursoRepository CursoRepository) {
-		this.repository = CursoRepository;
-	}
-	  public  AlunoRepository repositoryAluno;
+//	CursoController(CursoRepository CursoRepository) {
+//		this.repository = CursoRepository;
+//	}
+
 	  
 	
 	@GetMapping(path = { "/{id}" })
@@ -37,8 +37,17 @@ public class CursoController {
 	@PostMapping
 	public void salvar(@RequestBody Curso curso) {
 
-		for (Aluno aluno : curso.getAlunos()) {
-			AlunoController.salvarAluno(aluno);
+		if (!curso.getAlunos().isEmpty()) {
+			for (Aluno aluno : curso.getAlunos()) {
+				if (curso != null)
+					AlunoController.salvarAluno(aluno);
+			}
+		}
+		if (!curso.getDisciplinas().isEmpty()) {
+			for (Disciplina disciplina : curso.getDisciplinas()) {
+				if (disciplina != null)
+					DisciplinaController.salvarDisciplina(disciplina);
+			}
 		}
 
 		repository.save(curso);
@@ -60,6 +69,16 @@ public class CursoController {
 			repository.deleteById(id);
 			return ResponseEntity.ok().build();
 		}).orElse(ResponseEntity.notFound().build());
+	}
+	
+	
+	public static void  salvarCurso(Curso curso) {
+		try {
+			repository.save(curso);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

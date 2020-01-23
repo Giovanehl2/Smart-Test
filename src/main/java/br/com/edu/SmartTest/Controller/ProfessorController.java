@@ -1,5 +1,6 @@
 package br.com.edu.SmartTest.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.edu.SmartTest.Model.Disciplina;
+import br.com.edu.SmartTest.Model.Pergunta;
 import br.com.edu.SmartTest.Model.Professor;
 import br.com.edu.SmartTest.Model.Repository.ProfessorRepository;
 
@@ -18,12 +21,12 @@ import br.com.edu.SmartTest.Model.Repository.ProfessorRepository;
 public class ProfessorController {
 
 	
+	  @Autowired
+	  private static ProfessorRepository repository;
 
-	  private ProfessorRepository repository;
-
-	  ProfessorController(ProfessorRepository ProfessorRepository) {
-	      this.repository = ProfessorRepository;
-	  }
+//	  ProfessorController(ProfessorRepository ProfessorRepository) {
+//	      this.repository = ProfessorRepository;
+//	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Professor> findById(@PathVariable long id){
@@ -35,7 +38,12 @@ public class ProfessorController {
 	  @PostMapping
 	  public void salvar(@RequestBody Professor professor) {
 		  
-		  
+			if (!professor.getDisciplinas().isEmpty()) {
+				for (Disciplina disciplina : professor.getDisciplinas()) {
+					if (disciplina != null)
+						DisciplinaController.salvarDisciplina(disciplina);
+				}
+			}
 		  repository.save(professor);
 	  }
 	  	  
@@ -58,5 +66,14 @@ public class ProfessorController {
 	            return ResponseEntity.ok().build();
 	        }).orElse(ResponseEntity.notFound().build());
 	  }
+	  
+		public static void  salvarProfessor(Professor professor) {
+			try {
+				repository.save(professor);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 
 }

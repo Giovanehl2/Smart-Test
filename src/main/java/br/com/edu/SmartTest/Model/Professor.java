@@ -1,6 +1,7 @@
 package br.com.edu.SmartTest.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,78 +16,40 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name="Professores")
-public class Professor implements Serializable{
+public class Professor extends Pessoa implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4827112727112617592L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idProfessor", unique = true, nullable = false)
-	@JsonProperty("")
-	private long idProfessor;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "idProfessor", unique = true, nullable = false)
+//	@JsonProperty("idProfessor")
+//	private long idProfessor;
 
-	@Column(name="matricula")
-	@JsonProperty("")
-	private int matricula;
-	
-	@Column(name="nome")
-	@JsonProperty("")
-	private String nome;
-	
-	@Column(name="sexo")
-	@JsonProperty("")
-	private String sexo;
-	
-	@Column(name="senha")
-	@JsonProperty("")
-	private String senha;
+//	@Column(name="matricula")
+//	@JsonProperty("matricula")
+//	private int matricula;
+//	
+//	@Column(name="nome")
+//	@JsonProperty("nome")
+//	private String nome;
+//	
+//	@Column(name="sexo")
+//	@JsonProperty("sexo")
+//	private String sexo;
+//	
+//	@Column(name="senha")
+//	@JsonProperty("senha")
+//	private String senha;
 
 	@ManyToMany(mappedBy = "professores")
-	@JsonProperty("")
-	private List<Disciplina> disciplinas;
+	@JsonProperty("disciplinas")
+	private List<Disciplina> disciplinas = new ArrayList<>();
 
-	public long getIdProfessor() {
-		return idProfessor;
-	}
 
-	public void setIdProfessor(long idProfessor) {
-		this.idProfessor = idProfessor;
-	}
-
-	public int getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(int matricula) {
-		this.matricula = matricula;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
 
 	public List<Disciplina> getDisciplinas() {
 		return disciplinas;

@@ -1,6 +1,7 @@
 package br.com.edu.SmartTest.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -17,16 +19,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name="Cursos")
 public class Curso implements Serializable{
 	
-
-
-	public Curso(long idCurso, String nome, String descricao, List<Aluno> alunos, List<Disciplina> disciplinas) {
-		super();
-		this.idCurso = idCurso;
-		this.nome = nome;
-		this.descricao = descricao;
-		Alunos = alunos;
-		this.disciplinas = disciplinas;
-	}
 
 	/**
 	 * 
@@ -50,11 +42,11 @@ public class Curso implements Serializable{
 	
 	@ManyToMany(mappedBy = "cursos")
 	@JsonProperty("Alunos")
-	private List<Aluno> Alunos;
+	private List<Aluno> Alunos = new ArrayList<>();
 	
 	@ManyToMany(mappedBy = "cursos")
 	@JsonProperty("disciplinas")
-	private List<Disciplina> disciplinas;
+	private List<Disciplina> disciplinas = new ArrayList<>();
 
 	public long getIdCurso() {
 		return idCurso;

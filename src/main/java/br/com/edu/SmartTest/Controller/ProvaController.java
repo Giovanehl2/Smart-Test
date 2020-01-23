@@ -1,5 +1,6 @@
 package br.com.edu.SmartTest.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.edu.SmartTest.Model.Disciplina;
+import br.com.edu.SmartTest.Model.Professor;
 import br.com.edu.SmartTest.Model.Prova;
 import br.com.edu.SmartTest.Model.Repository.ProvaRepository;
 
@@ -18,13 +21,13 @@ import br.com.edu.SmartTest.Model.Repository.ProvaRepository;
 public class ProvaController {
 
 	
+	 @Autowired
+	  private static ProvaRepository repository;
 
-	  private ProvaRepository repository;
+//	  ProvaController(ProvaRepository ProvaRepository) {
+//	      this.repository = ProvaRepository;
+//	  }
 
-	  ProvaController(ProvaRepository ProvaRepository) {
-	      this.repository = ProvaRepository;
-	  }
-	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Prova> findById(@PathVariable long id){
 	    return repository.findById(id)
@@ -35,6 +38,12 @@ public class ProvaController {
 	  @PostMapping
 	  public void salvar(@RequestBody Prova prova) {
 		  
+			if (!prova.getDisciplinas().isEmpty()) {
+				for (Disciplina disciplina : prova.getDisciplinas()) {
+					if (disciplina != null)
+						DisciplinaController.salvarDisciplina(disciplina);
+				}
+			}
 		  
 		  repository.save(prova);
 	  }
@@ -57,5 +66,14 @@ public class ProvaController {
 	            return ResponseEntity.ok().build();
 	        }).orElse(ResponseEntity.notFound().build());
 	  }
+	  
+		public static void  salvarProva(Prova prova) {
+			try {
+				repository.save(prova);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 
 }

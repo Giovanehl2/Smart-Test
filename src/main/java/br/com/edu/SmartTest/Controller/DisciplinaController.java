@@ -1,5 +1,6 @@
 package br.com.edu.SmartTest.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.SmartTest.Model.Disciplina;
+import br.com.edu.SmartTest.Model.Pergunta;
+import br.com.edu.SmartTest.Model.Professor;
+import br.com.edu.SmartTest.Model.Prova;
+import br.com.edu.SmartTest.Model.Resposta;
+import br.com.edu.SmartTest.Model.Turma;
 import br.com.edu.SmartTest.Model.Repository.DisciplinaRepository;
 
 @RestController
@@ -18,12 +24,12 @@ import br.com.edu.SmartTest.Model.Repository.DisciplinaRepository;
 public class DisciplinaController {
 
 	
+	@Autowired
+	  private static DisciplinaRepository repository;
 
-	  private DisciplinaRepository repository;
-
-	  DisciplinaController(DisciplinaRepository DisciplinaRepository) {
-	      this.repository = DisciplinaRepository;
-	  }
+//	  DisciplinaController(DisciplinaRepository DisciplinaRepository) {
+//	      this.repository = DisciplinaRepository;
+//	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Disciplina> findById(@PathVariable long id){
@@ -34,8 +40,38 @@ public class DisciplinaController {
 	  
 	  @PostMapping
 	  public void salvar(@RequestBody Disciplina disciplina) {
-		  
-		  
+
+			
+			if (!disciplina.getProvas().isEmpty()) {
+				for (Prova prova : disciplina.getProvas()) {
+					if (prova != null)
+						ProvaController.salvarProva(prova);
+				}
+			}
+			if (!disciplina.getTurmas().isEmpty()) {
+				for (Turma turma : disciplina.getTurmas()) {
+					if (turma != null)
+						TurmaController.salvarTurma(turma);
+				}
+			}
+			if (!disciplina.getPerguntas().isEmpty()) {
+				for (Pergunta pergunta : disciplina.getPerguntas()) {
+					if (pergunta != null)
+						PerguntaController.salvarPergunta(pergunta);
+				}
+			}
+			if (!disciplina.getRespostas().isEmpty()) {
+				for (Resposta resposta : disciplina.getRespostas()) {
+					if (resposta != null)
+						RespostaController.salvarResposta(resposta);
+				}
+			}
+			if (!disciplina.getProfessores().isEmpty()) {
+				for (Professor professor : disciplina.getProfessores()) {
+					if (professor != null)
+						ProfessorController.salvarProfessor(professor);
+				}
+			}
 		  repository.save(disciplina);
 	  }
 	  	  
@@ -59,4 +95,13 @@ public class DisciplinaController {
 	        }).orElse(ResponseEntity.notFound().build());
 	  }
 
+		public static boolean salvarDisciplina(Disciplina disciplina) {
+			try {
+				repository.save(disciplina);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
 }

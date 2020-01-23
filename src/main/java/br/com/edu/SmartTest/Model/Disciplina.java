@@ -1,6 +1,7 @@
 package br.com.edu.SmartTest.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -37,6 +38,7 @@ public class Disciplina implements Serializable{
 	@JsonProperty("descricao")
 	private String descricao;
 	
+
 	@ManyToMany
 	@JoinTable(name = "cursos_disciplinas")
 	@JsonProperty("cursos")
@@ -52,21 +54,20 @@ public class Disciplina implements Serializable{
 	@JsonProperty("turmas")
 	private List<Turma> turmas;
 	
-	
 	@ManyToMany
 	@JoinTable(name = "perguntas_disciplinas")
 	@JsonProperty("perguntas")
-	private List<Pergunta> perguntas;
+	private List<Pergunta> perguntas = new ArrayList<>();
 	
 	@ManyToMany
 	@JoinTable(name = "respostas_disciplinas")
 	@JsonProperty("respostas")
-	private List<Resposta> respostas;
+	private List<Resposta> respostas = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "professores_disciplinas")
 	@JsonProperty("professores")
-	private List<Professor> professores;
+	private List<Professor> professores = new ArrayList<>();
 	
 	public long getIdDisciplina() {
 		return idDisciplina;
@@ -130,5 +131,13 @@ public class Disciplina implements Serializable{
 
 	public void setRespostas(List<Resposta> respostas) {
 		this.respostas = respostas;
+	}
+
+	public List<Professor> getProfessores() {
+		return professores;
+	}
+
+	public void setProfessores(List<Professor> professores) {
+		this.professores = professores;
 	}
 }

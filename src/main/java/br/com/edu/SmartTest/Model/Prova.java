@@ -1,6 +1,7 @@
 package br.com.edu.SmartTest.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,20 +28,19 @@ public class Prova implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idProva", unique = true, nullable = false)
-	@JsonProperty("")
+	@JsonProperty("idProva")
 	private long idProva;
 
 	@Column(name = "descricaoProva")
-	@JsonProperty("")
+	@JsonProperty("descricaoProva")
 	private String descricaoProva;
 
 	@ManyToMany(mappedBy = "provas")
-	@JsonProperty("")
-	private List<Disciplina> disciplinas;
+	@JsonProperty("disciplinas")
+	private List<Disciplina> disciplinas = new ArrayList<>();
 
-	@ManyToOne
-	@JoinColumn(name = "idTurma")
-	@JsonProperty("")
+
+	@JsonProperty("turma")
 	private Turma turma;
 
 	public String getDescricaoProva() {

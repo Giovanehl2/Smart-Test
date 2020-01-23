@@ -1,5 +1,6 @@
 package br.com.edu.SmartTest.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,21 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.SmartTest.Model.Aluno;
+import br.com.edu.SmartTest.Model.Curso;
+import br.com.edu.SmartTest.Model.Turma;
 import br.com.edu.SmartTest.Model.Repository.AlunoRepository;
-import br.com.edu.SmartTest.Model.Repository.CursoRepository;
 
 @RestController
 @RequestMapping({"/Alunos"})
 public class AlunoController {
 
 	
-
+	  @Autowired
 	  public static  AlunoRepository repositoryAluno;
 	  
-	  AlunoController(AlunoRepository alunoRepository) {
-	      this.repositoryAluno = alunoRepository;
-	  }
-	  
+//	  AlunoController(AlunoRepository alunoRepository) {
+//	      this.repositoryAluno = alunoRepository;
+//	  }
+//	  
 	  
 	  
 	  @GetMapping(path = {"/{id}"})
@@ -36,15 +38,28 @@ public class AlunoController {
 	  }
 	  
 	  @PostMapping
-	  public void salvar(@RequestBody Aluno aluno) {	  
-		  repositoryAluno.save(aluno);
-	  }
+	public void salvar(@RequestBody Aluno aluno) {
+		// grava curso e turma caso esteja presente o json.
+		if (!aluno.getCursos().isEmpty()) {
+			for (Curso curso : aluno.getCursos()) {
+				if (curso != null)
+					CursoController.salvarCurso(curso);
+			}
+		}
+		if (!aluno.getTurmas().isEmpty()) {
+			for (Turma turma : aluno.getTurmas()) {
+				if (turma != null)
+					TurmaController.salvarTurma(turma);
+			}
+		}
+		repositoryAluno.save(aluno);
+	}
 	  	  
 	  @PutMapping(value="/{id}")
 	  public ResponseEntity<Aluno> update(@PathVariable("id") long id, @RequestBody Aluno aluno){
 	    return repositoryAluno.findById(id)
 	        .map(x -> {
-	            x.setMatricula(aluno.getMatricula());
+//	            x.setMatricula(aluno.getMatricula());
 	            x.setNome(aluno.getNome());
 	            x.setSexo(aluno.getSexo());
 	            Aluno updated = repositoryAluno.save(x);
