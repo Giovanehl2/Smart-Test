@@ -7,10 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name="Perfis")
-public class Perfil {
+public class Perfil implements GrantedAuthority {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +39,11 @@ public class Perfil {
 
 	public void setDescricaoPerfil(String descricaoPerfil) {
 		this.descricaoPerfil = descricaoPerfil;
+	}
+
+	@Override
+	public String getAuthority() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

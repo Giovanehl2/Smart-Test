@@ -1,6 +1,5 @@
 package br.com.edu.SmartTest.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edu.SmartTest.Model.Disciplina;
-import br.com.edu.SmartTest.Model.Professor;
 import br.com.edu.SmartTest.Model.Prova;
 import br.com.edu.SmartTest.Model.Repository.ProvaRepository;
 
@@ -21,12 +19,12 @@ import br.com.edu.SmartTest.Model.Repository.ProvaRepository;
 public class ProvaController {
 
 	
-	 @Autowired
+
 	  private static ProvaRepository repository;
 
-//	  ProvaController(ProvaRepository ProvaRepository) {
-//	      this.repository = ProvaRepository;
-//	  }
+	  ProvaController(ProvaRepository ProvaRepository) {
+	      repository = ProvaRepository;
+	  }
 
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Prova> findById(@PathVariable long id){

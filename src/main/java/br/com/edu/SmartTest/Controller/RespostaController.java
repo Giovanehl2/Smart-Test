@@ -23,9 +23,9 @@ public class RespostaController {
 	   @Autowired
 	   private static RespostaRepository repository;
 
-//	  RespostaController(RespostaRepository RespostaRepository) {
-//	      this.repository = RespostaRepository;
-//	  }
+	  RespostaController(RespostaRepository RespostaRepository) {
+	      repository = RespostaRepository;
+	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Resposta> findById(@PathVariable long id){

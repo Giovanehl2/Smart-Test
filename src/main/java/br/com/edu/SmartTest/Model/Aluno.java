@@ -4,11 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -22,28 +18,6 @@ public class Aluno extends Pessoa implements Serializable {
 
 	private static final long serialVersionUID = -7721140114551319452L;
 
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "idAluno", unique = true, nullable = false)
-//	@JsonProperty("idAluno")
-//	private long idAluno;
-
-//	@Column(name = "matricula")
-//	@JsonProperty("matricula")
-//	private int matricula;
-//
-//	@Column(name = "nome")
-//	@JsonProperty("nome")
-//	private String nome;
-//
-//	@Column(name = "sexo")
-//	@JsonProperty("sexo")
-//	private String sexo;
-//
-//	@Column(name = "senha")
-//	@JsonProperty("senha")
-//	private String senha;
-//	
 
 	@ManyToMany
 	@JoinTable(name = "cursos_alunos")

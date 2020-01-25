@@ -1,6 +1,5 @@
 package br.com.edu.SmartTest.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,27 +16,22 @@ import br.com.edu.SmartTest.Model.Turma;
 import br.com.edu.SmartTest.Model.Repository.AlunoRepository;
 
 @RestController
-@RequestMapping({"/Alunos"})
+@RequestMapping({ "/Alunos" })
 public class AlunoController {
 
-	
-	  @Autowired
-	  public static  AlunoRepository repositoryAluno;
-	  
-//	  AlunoController(AlunoRepository alunoRepository) {
-//	      this.repositoryAluno = alunoRepository;
-//	  }
-//	  
-	  
-	  
-	  @GetMapping(path = {"/{id}"})
-	  public ResponseEntity<Aluno> findById(@PathVariable long id){
-	    return repositoryAluno.findById(id)
-	            .map(x -> ResponseEntity.ok().body(x))
-	            .orElse(ResponseEntity.notFound().build());
-	  }
-	  
-	  @PostMapping
+	public static AlunoRepository repositoryAluno;
+
+	AlunoController(AlunoRepository alunoRepository) {
+		repositoryAluno = alunoRepository;
+	}
+
+	@GetMapping(path = { "/{id}" })
+	public ResponseEntity<Aluno> findById(@PathVariable long id) {
+		return repositoryAluno.findById(id).map(x -> ResponseEntity.ok().body(x))
+				.orElse(ResponseEntity.notFound().build());
+	}
+
+	@PostMapping
 	public void salvar(@RequestBody Aluno aluno) {
 		// grava curso e turma caso esteja presente o json.
 		if (!aluno.getCursos().isEmpty()) {
@@ -54,29 +48,25 @@ public class AlunoController {
 		}
 		repositoryAluno.save(aluno);
 	}
-	  	  
-	  @PutMapping(value="/{id}")
-	  public ResponseEntity<Aluno> update(@PathVariable("id") long id, @RequestBody Aluno aluno){
-	    return repositoryAluno.findById(id)
-	        .map(x -> {
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Aluno> update(@PathVariable("id") long id, @RequestBody Aluno aluno) {
+		return repositoryAluno.findById(id).map(x -> {
 //	            x.setMatricula(aluno.getMatricula());
-	            x.setNome(aluno.getNome());
-	            x.setSexo(aluno.getSexo());
-	            Aluno updated = repositoryAluno.save(x);
-	            return ResponseEntity.ok().body(updated);
-	        }).orElse(ResponseEntity.notFound().build());
-	  }
-	  
-	  @DeleteMapping(path ={"/{id}"})
-	  public ResponseEntity<?> delete(@PathVariable("id") long id) {
-	    return repositoryAluno.findById(id)
-	        .map(record -> {
-	            repositoryAluno.deleteById(id);
-	            return ResponseEntity.ok().build();
-	        }).orElse(ResponseEntity.notFound().build());
-	  }
-	  
-	  
+			x.setNome(aluno.getNome());
+			x.setSexo(aluno.getSexo());
+			Aluno updated = repositoryAluno.save(x);
+			return ResponseEntity.ok().body(updated);
+		}).orElse(ResponseEntity.notFound().build());
+	}
+
+	@DeleteMapping(path = { "/{id}" })
+	public ResponseEntity<?> delete(@PathVariable("id") long id) {
+		return repositoryAluno.findById(id).map(record -> {
+			repositoryAluno.deleteById(id);
+			return ResponseEntity.ok().build();
+		}).orElse(ResponseEntity.notFound().build());
+	}
 
 	public static boolean salvarAluno(Aluno aluno) {
 		try {

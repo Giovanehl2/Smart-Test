@@ -1,9 +1,5 @@
 package br.com.edu.SmartTest.Controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.edu.SmartTest.Model.Curso;
 import br.com.edu.SmartTest.Model.Disciplina;
 import br.com.edu.SmartTest.Model.Pergunta;
 import br.com.edu.SmartTest.Model.Resposta;
@@ -24,13 +19,12 @@ import br.com.edu.SmartTest.Model.Repository.PerguntaRepository;
 @RequestMapping({"/Pergunta"})
 public class PerguntaController {
 
-	
-	  @Autowired
+
 	  private static PerguntaRepository repository;
 
-//	  PerguntaController(PerguntaRepository PerguntaRepository) {
-//	      this.repository = PerguntaRepository;
-//	  }
+	  PerguntaController(PerguntaRepository PerguntaRepository) {
+	      repository = PerguntaRepository;
+	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Pergunta> findById(@PathVariable long id){

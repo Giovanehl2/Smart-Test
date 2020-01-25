@@ -1,6 +1,5 @@
 package br.com.edu.SmartTest.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +23,12 @@ import br.com.edu.SmartTest.Model.Repository.DisciplinaRepository;
 public class DisciplinaController {
 
 	
-	@Autowired
+
 	  private static DisciplinaRepository repository;
 
-//	  DisciplinaController(DisciplinaRepository DisciplinaRepository) {
-//	      this.repository = DisciplinaRepository;
-//	  }
+	  DisciplinaController(DisciplinaRepository DisciplinaRepository) {
+	      repository = DisciplinaRepository;
+	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Disciplina> findById(@PathVariable long id){

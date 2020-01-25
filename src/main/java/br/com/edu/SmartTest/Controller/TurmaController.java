@@ -23,9 +23,9 @@ public class TurmaController {
 	  @Autowired
 	  private static TurmaRepository repository;
  
-//	  TurmaController(TurmaRepository TurmaRepository) {
-//	      this.repository = TurmaRepository;
-//	  }
+	  TurmaController(TurmaRepository TurmaRepository) {
+	      repository = TurmaRepository;
+	  }
 	  
 	  @GetMapping(path = {"/{id}"})
 	  public ResponseEntity<Turma> findById(@PathVariable long id){

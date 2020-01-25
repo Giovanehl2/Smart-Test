@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -36,6 +37,10 @@ public abstract class Pessoa {
 	@Column(name = "email")
 	@JsonProperty("email")
 	private String email;
+	
+	@OneToOne
+	@JsonProperty("usuario")
+	private Usuario usuario;
 	
 	@OneToMany
 	List<Telefone> telefones =  new ArrayList<>();
